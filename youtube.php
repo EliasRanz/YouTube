@@ -17,7 +17,7 @@ class Youtube {
 		$channel_id = $this->get_latest_video_channel_id($author_data);
 
 
-		// video information
+		// video information return it such that HTML and JS won't yell at you
 		$video_id = $this->get_video_id($video_media_group);
 		$title_attrib = str_replace(array('"',"'"), array('&quot;','&#39;'),$this->get_video_title($video_statistics));
 		$title = $this->format_title($title_attrib,58);
