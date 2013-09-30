@@ -8,16 +8,16 @@ To initialize the class simply use the following code `$youtube = new Youtube;`.
 The class will then return a function with the following array:
 
      array(	'uploads' => $uploads, 
-		'author' => $author, 
-		'channel_id' => $channel_id,
-		'video_id' => $video_id, 
-		'title_attrib' => $title_attrib, 
-		'title' => $title,
-		'js_friendly_title' => $js_friendly_title, 
-		'comment_count' => $comment_count, 
-		'like_to_dislike_ratio' => $like_to_dislike_ratio,
-		'view_count' => $view_count,
-		'likes' => $likes,
-		'dislikes' => $dislikes);
+			'author' => $author, 
+			'channel_id' => $channel_id,
+			'video_id' => $video_id, 
+			'title_attrib' => $title_attrib, 
+			'title' => $title,
+			'js_friendly_title' => $js_friendly_title, 
+			'comment_count' => $comment_count, 
+			'like_to_dislike_ratio' => $like_to_dislike_ratio,
+			'view_count' => $view_count,
+			'likes' => $likes,
+			'dislikes' => $dislikes);
 								
 Once you have that you can parse it like you would any normal array! Enjoy the script. If you want additional features for this then please let me know and I'll be happy to figure it out!
