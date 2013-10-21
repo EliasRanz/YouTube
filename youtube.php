@@ -44,7 +44,7 @@ class Youtube {
 				      'channel_id' => $channel_id,
 				      'video_id' => $video_id, 
 				      'title_attrib' => $title_attrib, 
-			       	      'title' => $title,
+			  	'title' => $title,
 				      'js_friendly_title' => $js_friendly_title, 
 				      'comment_count' => $comment_count, 
 				      'like_to_dislike_ratio' => $like_to_dislike_ratio,
