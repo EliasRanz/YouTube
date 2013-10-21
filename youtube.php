@@ -136,21 +136,35 @@ class Youtube {
 
 	// Gets the total number of likes on a video returns formated nicely
 	public function get_latest_video_likes($video_statistics) {
-		$likes = $video_statistics['yt$rating']->numLikes;
+
+		if($video_statistics['yt$rating']->numLikes) {
+			$likes = $video_statistics['yt$rating']->numLikes;
+		} else {
+			return 0;
+		}
 
 		return $likes;
 	}
 
 	// Gets the total number of dislikes on a video returns formated nicely
 	public function get_latest_video_dislikes($video_statistics) {
-		$dislikes = $video_statistics['yt$rating']->numDislikes;
+		
+		if($video_statistics['yt$rating']->numDislikes) {
+			$dislikes = $video_statistics['yt$rating']->numDislikes;
+		} else {
+			return 0;
+		}
 
 		return $dislikes;
 	}
 
 	// Gets the total number of ratings on a video
 	public function get_total_ratings($video_statistics) {
-		$ratings = $video_statistics['gd$rating']->numRaters;
+		if($video_statistics['gd$rating']->numRaters) {
+			$ratings = $video_statistics['gd$rating']->numRaters;
+		} else {
+			return 0;
+		}
 
 		return $ratings;
 	}
