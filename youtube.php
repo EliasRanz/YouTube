@@ -39,18 +39,18 @@ class Youtube {
 		$dislikes = $this->format_number($total_dislikes);
 
 
-		$latest_video = array(	'uploads' => $uploads, 
-						'author' => $author, 
-						'channel_id' => $channel_id,
-						'video_id' => $video_id, 
-						'title_attrib' => $title_attrib, 
-						'title' => $title,
-						'js_friendly_title' => $js_friendly_title, 
-						'comment_count' => $comment_count, 
-						'like_to_dislike_ratio' => $like_to_dislike_ratio,
-						'view_count' => $view_count,
-						'likes' => $likes,
-						'dislikes' => $dislikes);
+		$latest_video = array('uploads' => $uploads, 
+				      'author' => $author, 
+				      'channel_id' => $channel_id,
+				      'video_id' => $video_id, 
+				      'title_attrib' => $title_attrib, 
+			       	      'title' => $title,
+				      'js_friendly_title' => $js_friendly_title, 
+				      'comment_count' => $comment_count, 
+				      'like_to_dislike_ratio' => $like_to_dislike_ratio,
+				      'view_count' => $view_count,
+				      'likes' => $likes,
+				      'dislikes' => $dislikes);
 		return $latest_video;
 	}
 
