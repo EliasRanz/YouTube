@@ -5,55 +5,55 @@ class Youtube {
 		$json = file_get_contents('https://gdata.youtube.com/feeds/api/users/'.$username.'/uploads?max-results=1&alt=json&v=2');
 		if(!empty($json)) {
 
-			$channel_data = json_decode($json);
-	
-			// Prepare all metadata categories since youtube makes you typecast!
-			$feeds = (array)$channel_data->feed;
-			$author_data = (array)$channel_data->feed->author[0];
-			$video_statistics = (array)$channel_data->feed->entry[0];
-			$video_media_group = (array)$video_statistics['media$group'];
-	
-			// channel data
-			$uploads = $this->get_total_uploads($feeds);
-			$author = $this->get_latest_video_author($author_data);
-			$channel_id = $this->get_latest_video_channel_id($author_data);
-	
-	
-			// video information return it such that HTML and JS won't yell at you
-			$video_id = $this->get_video_id($video_media_group);
-			$title_attrib = str_replace(array('"',"'"), array('&quot;','&#39;'),$this->get_video_title($video_statistics));
-			$title = $this->format_title($title_attrib,58);
-			$js_friendly_title = str_replace("'","\'",$title_attrib);
-	
-			// video stats
-			$comment_count = $this->get_latest_video_comment_count($video_statistics);
-			$total_likes = $this->get_latest_video_likes($video_statistics);
-			$total_dislikes = $this->get_latest_video_dislikes($video_statistics);
-			$total_ratings = $this->get_total_ratings($video_statistics);
-			$hours_since_video_upload = $this->hours_since_video_upload($video_media_group);
-	
-			$like_to_dislike_ratio = $this->like_to_dislike_ratio($total_likes,$total_dislikes,$total_ratings);
-	
-			$total_view_count = $this->latest_video_view_count($video_statistics);
-			$view_count = $this->format_views($total_view_count,$hours_since_video_upload);
-	
-			$likes = $this->format_number($total_likes);
-			$dislikes = $this->format_number($total_dislikes);
-	
-	
-			$latest_video = array(	'uploads' => $uploads, 
-						 'author' => $author, 
-					     'channel_id' => $channel_id,
-					       'video_id' => $video_id, 
-					   'title_attrib' => $title_attrib, 
-					          'title' => $title,
-				      'js_friendly_title' => $js_friendly_title, 
-				 	  'comment_count' => $comment_count, 
-			          'like_to_dislike_ratio' => $like_to_dislike_ratio,
-				 	     'view_count' => $view_count,
-						  'likes' => $likes,
-					       'dislikes' => $dislikes);
-			return $latest_video;
+		$channel_data = json_decode($json);
+
+		// Prepare all metadata categories since youtube makes you typecast!
+		$feeds = (array)$channel_data->feed;
+		$author_data = (array)$channel_data->feed->author[0];
+		$video_statistics = (array)$channel_data->feed->entry[0];
+		$video_media_group = (array)$video_statistics['media$group'];
+
+		// channel data
+		$uploads = $this->get_total_uploads($feeds);
+		$author = $this->get_latest_video_author($author_data);
+		$channel_id = $this->get_latest_video_channel_id($author_data);
+
+
+		// video information return it such that HTML and JS won't yell at you
+		$video_id = $this->get_video_id($video_media_group);
+		$title_attrib = str_replace(array('"',"'"), array('&quot;','&#39;'),$this->get_video_title($video_statistics));
+		$title = $this->format_title($title_attrib,58);
+		$js_friendly_title = str_replace("'","\'",$title_attrib);
+
+		// video stats
+		$comment_count = $this->get_latest_video_comment_count($video_statistics);
+		$total_likes = $this->get_latest_video_likes($video_statistics);
+		$total_dislikes = $this->get_latest_video_dislikes($video_statistics);
+		$total_ratings = $this->get_total_ratings($video_statistics);
+		$hours_since_video_upload = $this->hours_since_video_upload($video_media_group);
+
+		$like_to_dislike_ratio = $this->like_to_dislike_ratio($total_likes,$total_dislikes,$total_ratings);
+
+		$total_view_count = $this->latest_video_view_count($video_statistics);
+		$view_count = $this->format_views($total_view_count,$hours_since_video_upload);
+
+		$likes = $this->format_number($total_likes);
+		$dislikes = $this->format_number($total_dislikes);
+
+
+		$latest_video = array(	'uploads' => $uploads, 
+								'author' => $author, 
+								'channel_id' => $channel_id,
+								'video_id' => $video_id, 
+								'title_attrib' => $title_attrib, 
+								'title' => $title,
+								'js_friendly_title' => $js_friendly_title, 
+								'comment_count' => $comment_count, 
+								'like_to_dislike_ratio' => $like_to_dislike_ratio,
+								'view_count' => $view_count,
+								'likes' => $likes,
+								'dislikes' => $dislikes);
+		return $latest_video;
 		} else {
 			return;
 		}
@@ -215,5 +215,26 @@ class Youtube {
 		$return = json_decode($json);
 
 		return $return;
+	}
+
+	// gets the video data for videos in a playlist
+	public function get_playlist_videos($playlist_id) {
+		$json = json_decode(file_get_contents('https://gdata.youtube.com/feeds/api/playlists/'.$playlist_id.'?alt=json&v=2'));
+		
+		$return = array_reverse($json->feed->entry);
+
+		return $return;
+	}
+
+	public function get_playlist_video_title($video) {
+		$json = json_decode(file_get_contents('https://gdata.youtube.com/feeds/api/playlists/PLgaLPlCcSK1rV2bHfmHk1WXEYxIdZC6L7?alt=json&v=2'));
+		$title_attrib = str_replace(array('"',"'",'#','@'), array('&quot;','&#39;','&#35;','&#64;'),$json->feed->entry[$video]->title->{'$t'});
+		return $title_attrib;
+	}
+
+	public function get_playlist_video_id($video) {
+		$json = json_decode(file_get_contents('https://gdata.youtube.com/feeds/api/playlists/PLgaLPlCcSK1rV2bHfmHk1WXEYxIdZC6L7?alt=json&v=2'));
+		$video_url = $json->feed->entry[$video]->content->src;
+		return substr($video_url, 26,-40);
 	}
 }
